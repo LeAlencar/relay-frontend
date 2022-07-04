@@ -6,50 +6,41 @@ import { RelayEnvironmentProvider } from 'react-relay/hooks'
 import Environment from './relay/Environment'
 
 import { loadQuery, usePreloadedQuery } from 'react-relay/hooks'
-import { AppeventQuery } from './__generated__/AppeventQuery.graphql';
+import { AppTransactionQuery } from './__generated__/AppTransactionQuery.graphql';
+import Transaction from './components/Transaction';
 
 
 const graphql = require('babel-plugin-relay/macro');
 
-const RepositoryNameQuery = graphql`
-  query AppeventQuery {
-    events {
+const appTransactionQuery = graphql`
+  query AppTransactionQuery {
+    transactions {
       edges {
         node {
           id
           name
-          start
-          end
-          allDay
+          category
+          price
         }
       }
     }
   }
 `;
 
-// Immediately load the query as our app starts. For a real app, we'd move this
-// into our routing configuration, preloading data as we transition to new routes.
-const preloadedQuery = loadQuery(Environment, RepositoryNameQuery, {
+
+const preloadedQuery = loadQuery(Environment, appTransactionQuery, {
   /* query variables */
 });
 
 
 
 function App(props: any) {
-  const data = usePreloadedQuery<AppeventQuery>(RepositoryNameQuery, props.preloadedQuery);
-  console.log(data.events.edges)
+  //const data = usePreloadedQuery<AppTransactionQuery>(appTransactionQuery, props.preloadedQuery);
+  //console.log(data.transactions.edges)
   
   return (
     <div className="App">
-      
-      {data.events.edges.map(({node}: any) => {
-        return(
-          <div key={node.name}>
-
-            <p>{node.name}</p>
-          </div>
-        )
-      })} 
+      <Transaction />
     </div>
   );
 }
@@ -58,7 +49,7 @@ function AppRoot() {
   return (
     <RelayEnvironmentProvider environment={Environment}>
       <Suspense fallback={'Loading...'}>
-        <App preloadedQuery={preloadedQuery} />
+        <App />
       </Suspense>
     </RelayEnvironmentProvider>
   );

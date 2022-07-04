@@ -1,0 +1,150 @@
+# The root of all... queries
+type Query {
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+
+  # Fetches objects given their IDs
+  nodes(
+    # The IDs of objects
+    ids: [ID!]!
+  ): [Node]!
+  transactions(
+    after: String
+    first: Int
+    before: String
+    last: Int
+  ): TransactionConnection!
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# A connection to a list of items.
+type TransactionConnection {
+  # Number of items in this connection
+  count: Int
+
+  # A count of the total number of objects in this connection, ignoring pagination.
+  #   This allows a client to fetch the first five objects by passing "5" as the
+  #   argument to "first", then fetch the total count so it could display "5 of 83",
+  #   for example.
+  totalCount: Int
+
+  # Offset from start
+  startCursorOffset: Int!
+
+  # Offset till end
+  endCursorOffset: Int!
+
+  # Information to aid in pagination.
+  pageInfo: PageInfoExtended!
+
+  # A list of edges.
+  edges: [TransactionEdge]!
+}
+
+# Information about pagination in a connection.
+type PageInfoExtended {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+# An edge in a connection.
+type TransactionEdge {
+  # The item at the end of the edge
+  node: Transaction
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# transaction data
+type Transaction implements Node {
+  # The ID of an object
+  id: ID!
+  name: String
+  category: String
+  price: String
+}
+
+# Root of ... mutations
+type Mutation {
+  # Create a new Transaction
+  TransactionCreate(input: TransactionCreateInput!): TransactionCreatePayload
+
+  # Delete a Transaction
+  TransactionDelete(input: TransactionDeleteInput!): TransactionDeletePayload
+
+  # Update a Transaction
+  TransactionUpdate(input: TransactionUpdateInput!): TransactionUpdatePayload
+}
+
+input TransactionCreateInput {
+  transactionId: ID!
+  name: String!
+  category: String!
+  price: String!
+  clientMutationId: String
+}
+
+type TransactionCreatePayload {
+  transaction: Transaction
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input TransactionDeleteInput {
+  transactionId: ID!
+  clientMutationId: String
+}
+
+type TransactionDeletePayload {
+  transactionId: ID
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input TransactionUpdateInput {
+  transactionId: ID!
+  name: String!
+  start: String!
+  end: String!
+  allDay: Boolean!
+  clientMutationId: String
+}
+
+type TransactionUpdatePayload {
+  transaction: Transaction
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
