@@ -1,21 +1,25 @@
-import Modal from 'react-modal';
-import { Container } from './styles';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import Modal from 'react-modal'
+import { Container } from './styles'
 
-import CloseIcon from '@mui/icons-material/Close';
-import CircularProgress from '@mui/material/CircularProgress';
+import CloseIcon from '@mui/icons-material/Close'
+import CircularProgress from '@mui/material/CircularProgress'
 
-import { useMutation } from 'react-relay';
-import { Typography } from '@mui/material';
-import { useFormik } from 'formik';
+import { useMutation } from 'react-relay'
+import { Typography } from '@mui/material'
+import { useFormik } from 'formik'
 
-const graphql = require('babel-plugin-relay/macro');
+const graphql = require('babel-plugin-relay/macro')
 
 interface NewTransactionModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
+  isOpen: boolean
+  onRequestClose: () => void
 }
 
-export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+export function NewTransactionModal({
+  isOpen,
+  onRequestClose
+}: NewTransactionModalProps) {
   const TransactionCreate = graphql`
     mutation newTransactionModalMutation($input: TransactionCreateInput!) {
       TransactionCreate(input: $input) {
@@ -29,7 +33,7 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         }
       }
     }
-  `;
+  `
 
   const [transactionCreate] = useMutation(TransactionCreate)
 
@@ -48,18 +52,17 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
               name: values.name,
               category: values.category,
               price: String(values.price)
-            },
+            }
           },
           onCompleted(data) {
-            console.log(data);
-            window.alert("Transaction created o/");
-          },
+            console.log(data)
+            window.alert('Transaction created o/')
+          }
         })
         actions.setSubmitting(false)
       }, 2000)
     }
   })
-
 
   return (
     <Modal
@@ -69,7 +72,11 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
       className="react-modal-content"
       ariaHideApp={false}
     >
-      <button type="button" onClick={onRequestClose} className="react-modal-close">
+      <button
+        type="button"
+        onClick={onRequestClose}
+        className="react-modal-close"
+      >
         <CloseIcon />
       </button>
       <Container onSubmit={formikValue.handleSubmit}>
@@ -94,7 +101,13 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
           onChange={formikValue.handleChange}
           value={formikValue.values.category}
         />
-        <button type="submit">{formikValue.isSubmitting ? <CircularProgress color='inherit'/> : 'Cadastrar'}</button>
+        <button type="submit">
+          {formikValue.isSubmitting ? (
+            <CircularProgress color="inherit" />
+          ) : (
+            'Cadastrar'
+          )}
+        </button>
       </Container>
     </Modal>
   )

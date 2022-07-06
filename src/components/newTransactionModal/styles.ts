@@ -5,9 +5,8 @@ export const Container = styled.form`
     color: var(--text-title);
     font-size: 1.5rem;
     margin-bottom: 2rem;
-
   }
-  input{
+  input {
     width: 100%;
     padding: 0 1.4rem;
     height: 4rem;
@@ -24,12 +23,12 @@ export const Container = styled.form`
     }
   }
 
-  button[type="submit"] {
+  button[type='submit'] {
     width: 100%;
     padding: 0 1.5rem;
     height: 4rem;
     background: var(--green);
-    color: #FFF;
+    color: #fff;
     border-radius: 0.25rem;
     border: 0;
     font-size: 1rem;
@@ -40,4 +39,4 @@ export const Container = styled.form`
       filter: brightness(0.9);
     }
   }
-`;
+`
