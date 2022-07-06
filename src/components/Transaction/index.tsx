@@ -8,9 +8,6 @@ import { AppTransactionQuery } from "../../__generated__/AppTransactionQuery.gra
 
 const graphql = require('babel-plugin-relay/macro');
 
-
-
-
 export default function Transaction() {
   const response = useLazyLoadQuery<AppTransactionQuery>(graphql`
   query TransactionQuery {
@@ -28,9 +25,6 @@ export default function Transaction() {
 `, {},
  {fetchPolicy: 'network-only'}
 );
-
-
-
 
   const { transactions } = response
   console.log(transactions.edges)
