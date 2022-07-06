@@ -1,16 +1,14 @@
-import { RequestParameters } from 'relay-runtime/lib/util/RelayConcreteNode'
 import { Variables } from 'relay-runtime/lib/util/RelayRuntimeTypes'
 
-async function fetchGraphQL(request: RequestParameters, variables: Variables) {
+export const fetchGraphQL = async (query: string, variables: Variables) => {
   const response = await fetch('http://localhost:9000/graphql', {
     method: 'POST',
-
     headers: {
-      Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      query: request,
+      query,
       variables
     })
   })
