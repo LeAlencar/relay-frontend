@@ -8,6 +8,7 @@ import Environment from './relay/Environment'
 import { loadQuery, usePreloadedQuery } from 'react-relay/hooks'
 import { AppTransactionQuery } from './__generated__/AppTransactionQuery.graphql';
 import Transaction from './components/Transaction';
+import Heading from './components/Heading';
 
 
 const graphql = require('babel-plugin-relay/macro');
@@ -40,6 +41,7 @@ function App(props: any) {
   
   return (
     <div className="App">
+      <Heading />
       <Transaction />
     </div>
   );
