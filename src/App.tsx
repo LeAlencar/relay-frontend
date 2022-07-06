@@ -1,48 +1,35 @@
 /* eslint-disable array-callback-return */
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 
 import { RelayEnvironmentProvider } from 'react-relay/hooks'
 
 import Environment from './relay/Environment'
 
-import { loadQuery, usePreloadedQuery } from 'react-relay/hooks'
-import { AppTransactionQuery } from './__generated__/AppTransactionQuery.graphql';
-import Transaction from './components/Transaction';
+import Transactions from './components/Transactions';
 import Heading from './components/Heading';
+import { NewTransactionModal } from './components/newTransactionModal';
+import { GlobalStyle } from './styles/global';
 
+function App() {
+  
+  const [isNewTransactionModalOpen, setIsNewModalTransactionOpen] = useState(false);
 
-const graphql = require('babel-plugin-relay/macro');
-
-const appTransactionQuery = graphql`
-  query AppTransactionQuery {
-    transactions {
-      edges {
-        node {
-          id
-          name
-          category
-          price
-        }
-      }
-    }
+  function handleOpenNewTransactionModal() {
+    setIsNewModalTransactionOpen(true);
   }
-`;
 
-
-const preloadedQuery = loadQuery(Environment, appTransactionQuery, {
-  /* query variables */
-});
-
-
-
-function App(props: any) {
-  //const data = usePreloadedQuery<AppTransactionQuery>(appTransactionQuery, props.preloadedQuery);
-  //console.log(data.transactions.edges)
+  function handleCloseNewTransactionModal() {
+    setIsNewModalTransactionOpen(false);
+  }
   
   return (
     <div className="App">
-      <Heading />
-      <Transaction />
+      <Heading onOpenNewTransactionModal={handleOpenNewTransactionModal}/>
+      <Transactions />
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal} />
+      <GlobalStyle />
     </div>
   );
 }

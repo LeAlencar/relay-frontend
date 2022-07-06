@@ -5,8 +5,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
+interface HeaderProps {
+  onOpenNewTransactionModal: () => void;
+}
 
-export default function Heading() {
+export default function Heading({ onOpenNewTransactionModal }: HeaderProps) {
+  
   return (
     <>
       <>
@@ -17,7 +21,7 @@ export default function Heading() {
             <Typography align="center" variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Transactions
             </Typography>
-            <Button color="success" variant="contained">
+            <Button color="success" variant="contained" onClick={onOpenNewTransactionModal}>
               New
             </Button>
           </Toolbar>

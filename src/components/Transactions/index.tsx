@@ -4,13 +4,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import { useLazyLoadQuery } from 'react-relay/hooks'
-import { AppTransactionQuery } from "../../__generated__/AppTransactionQuery.graphql";
+import { TransactionsQuery } from "./__generated__/TransactionsQuery.graphql";
 
 const graphql = require('babel-plugin-relay/macro');
 
-export default function Transaction() {
-  const response = useLazyLoadQuery<AppTransactionQuery>(graphql`
-  query TransactionQuery {
+export default function Transactions() {
+  const response = useLazyLoadQuery<TransactionsQuery>(graphql`
+  query TransactionsQuery {
     transactions {
       edges {
         node {
@@ -29,7 +29,7 @@ export default function Transaction() {
   const { transactions } = response
   console.log(transactions.edges)
   return (
-    <Container>
+    <Container sx={{ marginTop: 10}}>
       {transactions.edges.map(({node}: any) => {
         return (
           <Card sx={{ minWidth: 275 }} key={node.id} >
@@ -43,5 +43,4 @@ export default function Transaction() {
       })}
     </Container>
   )
-
 }
