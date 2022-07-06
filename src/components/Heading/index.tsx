@@ -13,7 +13,6 @@ export default function Heading({ onOpenNewTransactionModal }: HeaderProps) {
   
   return (
     <>
-      <>
       <Box sx={{ flexGrow: 1 }}>
         <CssBaseline />
         <AppBar position="static" color="primary">
@@ -27,7 +26,6 @@ export default function Heading({ onOpenNewTransactionModal }: HeaderProps) {
           </Toolbar>
         </AppBar>
       </Box>
-    </>
     </>
   );
 };
