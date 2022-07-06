@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import { Container } from './styles';
 
 import CloseIcon from '@mui/icons-material/Close';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { useMutation } from 'react-relay';
 import { Typography } from '@mui/material';
@@ -40,25 +40,27 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
       price: ''
     },
     onSubmit: (values, actions) => {
-      transactionCreate({
-        variables: {
-          input: {
-            transactionId: Date.now(),
-            name: values.name,
-            category: values.category,
-            price: String(values.price)
+      setTimeout(() => {
+        transactionCreate({
+          variables: {
+            input: {
+              transactionId: Date.now(),
+              name: values.name,
+              category: values.category,
+              price: String(values.price)
+            },
           },
-        },
-        onCompleted(data) {
-          console.log(data);
-          window.alert("Transaction created o/");
-        },
-      })
-      actions.setSubmitting(false)
+          onCompleted(data) {
+            console.log(data);
+            window.alert("Transaction created o/");
+          },
+        })
+        actions.setSubmitting(false)
+      }, 2000)
     }
   })
-  
-  
+
+
   return (
     <Modal
       isOpen={isOpen}
@@ -72,27 +74,27 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
       </button>
       <Container onSubmit={formikValue.handleSubmit}>
         <Typography variant="h2">Cadastrar Transação</Typography>
-        <input 
+        <input
           id="name"
-          placeholder="Nome" 
-          onChange={formikValue.handleChange} 
+          placeholder="Nome"
+          onChange={formikValue.handleChange}
           value={formikValue.values.name}
         />
-        <input 
+        <input
           id="price"
-          type="number" 
-          placeholder="Valor" 
-          onChange={formikValue.handleChange} 
+          type="number"
+          placeholder="Valor"
+          onChange={formikValue.handleChange}
           value={formikValue.values.price}
         />
-        
-        <input 
+
+        <input
           id="category"
-          placeholder="Categoria" 
-          onChange={formikValue.handleChange} 
+          placeholder="Categoria"
+          onChange={formikValue.handleChange}
           value={formikValue.values.category}
         />
-        <button type="submit">{formikValue.isSubmitting ? 'Cadastrando...' : 'Cadastrar'}</button>
+        <button type="submit">{formikValue.isSubmitting ? <CircularProgress color='inherit'/> : 'Cadastrar'}</button>
       </Container>
     </Modal>
   )
