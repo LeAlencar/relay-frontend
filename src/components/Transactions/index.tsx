@@ -34,7 +34,7 @@ export default function Transactions() {
     <Container sx={{ marginTop: 10 }}>
       {transactions.edges.map(({ node }: any) => {
         return (
-          <Card sx={{ minWidth: 275 }} key={node.id}>
+          <Card sx={{ minWidth: 275, marginBottom: 5 }} key={node.id}>
             <CardContent>
               <Typography
                 sx={{ fontSize: 14 }}
