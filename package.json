@@ -69,6 +69,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "graphql": "^16.5.0",
     "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "relay-compiler": "^14.0.0"
   }
