@@ -1,34 +1,48 @@
-import { Suspense, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { Suspense } from 'react'
 
-import { RelayEnvironmentProvider } from 'react-relay/hooks'
+import { RelayEnvironmentProvider, useLazyLoadQuery } from 'react-relay/hooks'
 
 import Environment from './relay/Environment'
 
-import Transactions from './components/Transactions'
 import Heading from './components/Heading'
-import { NewTransactionModal } from './components/newTransactionModal'
+import Container from '@mui/material/Container'
 import { GlobalStyle } from './styles/global'
+import { Transaction } from './components/Transaction'
+import { AppQuery } from './__generated__/AppQuery.graphql'
+
+const graphql = require('babel-plugin-relay/macro')
 
 function App() {
-  const [isNewTransactionModalOpen, setIsNewModalTransactionOpen] =
-    useState(false)
+  const response = useLazyLoadQuery<AppQuery>(
+    graphql`
+      query AppQuery {
+        transactions {
+          edges {
+            node {
+              id
+              name
+              category
+              price
+            }
+          }
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: 'network-only' }
+  )
 
-  function handleOpenNewTransactionModal() {
-    setIsNewModalTransactionOpen(true)
-  }
-
-  function handleCloseNewTransactionModal() {
-    setIsNewModalTransactionOpen(false)
-  }
+  const { transactions } = response
 
   return (
     <div className="App">
-      <Heading onOpenNewTransactionModal={handleOpenNewTransactionModal} />
-      <Transactions />
-      <NewTransactionModal
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={handleCloseNewTransactionModal}
-      />
+      <Heading />
+      <Container sx={{ marginTop: 10 }}>
+        {transactions.edges.map(({ node }: any) => {
+          return <Transaction key={node.id} node={node} />
+        })}
+      </Container>
       <GlobalStyle />
     </div>
   )

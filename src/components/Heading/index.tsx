@@ -4,11 +4,20 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Button from '@mui/material/Button'
-interface HeaderProps {
-  onOpenNewTransactionModal: () => void
-}
+import { useState } from 'react'
+import { NewTransactionModal } from '../newTransactionModal'
 
-export default function Heading({ onOpenNewTransactionModal }: HeaderProps) {
+export default function Heading() {
+  const [isNewTransactionModalOpen, setIsNewModalTransactionOpen] =
+    useState(false)
+
+  function handleOpenNewTransactionModal() {
+    setIsNewModalTransactionOpen(true)
+  }
+
+  function handleCloseNewTransactionModal() {
+    setIsNewModalTransactionOpen(false)
+  }
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -26,13 +35,17 @@ export default function Heading({ onOpenNewTransactionModal }: HeaderProps) {
             <Button
               color="success"
               variant="contained"
-              onClick={onOpenNewTransactionModal}
+              onClick={handleOpenNewTransactionModal}
             >
               New
             </Button>
           </Toolbar>
         </AppBar>
       </Box>
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+      />
     </>
   )
 }
