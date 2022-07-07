@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/relay-frontend/static/css/main.039bf95e.css",
+    "main.js": "/relay-frontend/static/js/main.9e43ca33.js",
+    "index.html": "/relay-frontend/index.html",
+    "main.039bf95e.css.map": "/relay-frontend/static/css/main.039bf95e.css.map",
+    "main.9e43ca33.js.map": "/relay-frontend/static/js/main.9e43ca33.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.039bf95e.css",
+    "static/js/main.9e43ca33.js"
+  ]
+}
