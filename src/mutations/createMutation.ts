@@ -2,7 +2,7 @@
 const graphql = require('babel-plugin-relay/macro')
 
 export const TransactionCreate = graphql`
-  mutation newTransactionModalMutation($input: TransactionCreateInput!) {
+  mutation createMutation($input: TransactionCreateInput!) {
     TransactionCreate(input: $input) {
       success
       error
