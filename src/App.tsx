@@ -10,6 +10,8 @@ import Container from '@mui/material/Container'
 import { GlobalStyle } from './styles/global'
 import { Transaction } from './components/Transaction'
 import { AppQuery } from './__generated__/AppQuery.graphql'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const graphql = require('babel-plugin-relay/macro')
 
@@ -37,6 +39,17 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Heading />
       <Container sx={{ marginTop: 10 }}>
         {transactions.edges.map(({ node }: any) => {

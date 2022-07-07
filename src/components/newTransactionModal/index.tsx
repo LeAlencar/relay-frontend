@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import Modal from 'react-modal'
 import { Container } from './styles'
-
+import { toast } from 'react-toastify'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -40,7 +40,16 @@ export function NewTransactionModal({
           },
           onCompleted(data) {
             console.log(data)
-            window.alert('Transaction created o/')
+            //window.alert('Transaction created o/')
+            toast.success('Transaction Created!', {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined
+            })
           }
         })
         actions.setSubmitting(false)
