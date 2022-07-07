@@ -2,6 +2,7 @@ import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { UpdateTransactionModal } from '../updateTransaction'
 import { useMutation } from 'react-relay'
@@ -46,19 +47,29 @@ export function Transaction({ node }: nodeProps) {
   return (
     <Card sx={{ minWidth: 275, marginBottom: 5 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
           {node.name}
         </Typography>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={handleOpenUpdateModal}
-        >
-          Edit
-        </Button>
-        <Button color="warning" variant="contained" onClick={handleDelete}>
-          Delete
-        </Button>
+        <Typography color="text.secondary" gutterBottom>
+          Price: R$ {node.price}
+        </Typography>
+        <Typography color="text.secondary" gutterBottom>
+          Category: {node.category}
+        </Typography>
+
+        <Box display="flex" justifyContent="space-between">
+          <Button
+            color="success"
+            variant="contained"
+            onClick={handleOpenUpdateModal}
+          >
+            Edit
+          </Button>
+          <Button color="warning" variant="contained" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Box>
+
         <UpdateTransactionModal
           isOpen={isUpdateModalOpen}
           onRequestClose={handleCloseUpdateModal}
