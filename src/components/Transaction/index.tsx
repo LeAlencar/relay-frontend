@@ -45,7 +45,7 @@ export function Transaction({ node }: nodeProps) {
   }
 
   return (
-    <Card sx={{ minWidth: 275, marginBottom: 5 }}>
+    <Card sx={{ minWidth: 175, marginBottom: 5 }}>
       <CardContent>
         <Typography variant="h6" color="text.secondary" gutterBottom>
           {node.name}
@@ -69,7 +69,6 @@ export function Transaction({ node }: nodeProps) {
             Delete
           </Button>
         </Box>
-
         <UpdateTransactionModal
           isOpen={isUpdateModalOpen}
           onRequestClose={handleCloseUpdateModal}
