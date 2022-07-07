@@ -2,6 +2,10 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lealencar.github.io/relay-frontend",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -26,13 +30,15 @@
   },
   "scripts": {
     "start": "yarn run relay && react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && yarn run relay",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "relay": "relay-compiler",
     "postinstall": "husky install",
     "prepare": "husky install",
-    "lint": "eslint src --max-warnings=1"
+    "lint": "eslint src --max-warnings=1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "lint-staged": {
     "src/**/*": [
@@ -68,6 +74,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^4.0.0",
     "graphql": "^16.5.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
