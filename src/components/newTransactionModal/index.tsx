@@ -8,8 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
-
-const graphql = require('babel-plugin-relay/macro')
+import { TransactionCreate } from '../../mutations/createMutation'
 
 interface NewTransactionModalProps {
   isOpen: boolean
@@ -20,21 +19,6 @@ export function NewTransactionModal({
   isOpen,
   onRequestClose
 }: NewTransactionModalProps) {
-  const TransactionCreate = graphql`
-    mutation newTransactionModalMutation($input: TransactionCreateInput!) {
-      TransactionCreate(input: $input) {
-        success
-        error
-        transaction {
-          id
-          name
-          category
-          price
-        }
-      }
-    }
-  `
-
   const [transactionCreate] = useMutation(TransactionCreate)
 
   const formikValue = useFormik({
