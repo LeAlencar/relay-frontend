@@ -44,10 +44,16 @@ export function Transaction({ node }: nodeProps) {
   }
 
   return (
-    <Card sx={{ minWidth: 275, marginBottom: 5 }}>
+    <Card sx={{ minWidth: 175, marginBottom: 5 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
           {node.name}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          R$ {node.price}
+        </Typography>
+        <Typography sx={{ fontSize: 12 }} color="text.primary" gutterBottom>
+          Category: {node.category}
         </Typography>
         <Button
           color="success"
