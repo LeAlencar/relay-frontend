@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { UpdateTransactionModal } from '../updateTransaction'
+import { useMutation } from 'react-relay'
+import { TransactionDelete } from '../../mutations/deleteMutation'
 
 interface nodeProps {
   key: string
@@ -17,6 +19,7 @@ interface nodeProps {
 
 export function Transaction({ node }: nodeProps) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
+  const [transactionDelete] = useMutation(TransactionDelete)
 
   function handleOpenUpdateModal() {
     setIsUpdateModalOpen(true)
@@ -24,6 +27,20 @@ export function Transaction({ node }: nodeProps) {
 
   function handleCloseUpdateModal() {
     setIsUpdateModalOpen(false)
+  }
+
+  function handleDelete() {
+    transactionDelete({
+      variables: {
+        input: {
+          transactionId: node.id
+        }
+      },
+      onCompleted(data) {
+        console.log(data)
+        window.alert('Transaction deleted o/')
+      }
+    })
   }
 
   return (
@@ -38,6 +55,9 @@ export function Transaction({ node }: nodeProps) {
           onClick={handleOpenUpdateModal}
         >
           Edit
+        </Button>
+        <Button color="warning" variant="contained" onClick={handleDelete}>
+          Delete
         </Button>
         <UpdateTransactionModal
           isOpen={isUpdateModalOpen}

@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
-import { updateTransactionMutation } from './updateMutation'
+import { updateTransactionMutation } from '../../mutations/updateMutation'
 
 interface UpdateTransactionModalProps {
   isOpen: boolean
