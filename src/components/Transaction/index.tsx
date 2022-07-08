@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { UpdateTransactionModal } from '../updateTransaction'
 import { useMutation } from 'react-relay'
 import { TransactionDelete } from '../../mutations/deleteMutation'
+import { toast } from 'react-toastify'
 
 interface nodeProps {
   key: string
@@ -39,7 +40,15 @@ export function Transaction({ node }: nodeProps) {
       },
       onCompleted(data) {
         console.log(data)
-        window.alert('Transaction deleted o/')
+        toast.success('Transaction Deleted!', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        })
       }
     })
   }
