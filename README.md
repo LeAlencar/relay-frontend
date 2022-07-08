@@ -18,4 +18,16 @@ yarn install
 #or
 npm install
 ```
+- Generate Relay files.
+```sh 
+yarn relay 
+#or
+npm run relay
+```
+- Run the application itself
+```sh 
+yarn start 
+#or
+npm run start
+```
 - Open http://localhost:3000
