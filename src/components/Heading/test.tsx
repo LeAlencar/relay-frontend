@@ -14,4 +14,13 @@ describe('<Heading />', () => {
     )
     expect(screen.getByText('Transactions')).toBeTruthy()
   })
+  it('should render the create button', () => {
+    const environment = createMockEnvironment()
+    render(
+      <WithProvider relayEnvironment={environment}>
+        <Heading />
+      </WithProvider>
+    )
+    expect(screen.findByDisplayValue('new')).toBeTruthy()
+  })
 })
