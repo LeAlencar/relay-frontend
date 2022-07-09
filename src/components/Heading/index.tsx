@@ -45,6 +45,7 @@ export default function Heading() {
       </Box>
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
+        setIsOpen={setIsNewModalTransactionOpen}
         onRequestClose={handleCloseNewTransactionModal}
       />
     </>
