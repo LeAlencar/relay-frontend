@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/relay-frontend/static/css/main.039bf95e.css",
-    "main.js": "/relay-frontend/static/js/main.8cf9ec38.js",
+    "main.js": "/relay-frontend/static/js/main.d485649c.js",
     "index.html": "/relay-frontend/index.html",
     "main.039bf95e.css.map": "/relay-frontend/static/css/main.039bf95e.css.map",
-    "main.8cf9ec38.js.map": "/relay-frontend/static/js/main.8cf9ec38.js.map"
+    "main.d485649c.js.map": "/relay-frontend/static/js/main.d485649c.js.map"
   },
   "entrypoints": [
     "static/css/main.039bf95e.css",
-    "static/js/main.8cf9ec38.js"
+    "static/js/main.d485649c.js"
   ]
 }
