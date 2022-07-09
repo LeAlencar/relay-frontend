@@ -9,14 +9,17 @@ import { useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { TransactionCreate } from '../../mutations/createMutation'
+import { Dispatch, SetStateAction } from 'react'
 
 interface NewTransactionModalProps {
   isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
   onRequestClose: () => void
 }
 
 export function NewTransactionModal({
   isOpen,
+  setIsOpen,
   onRequestClose
 }: NewTransactionModalProps) {
   const [transactionCreate] = useMutation(TransactionCreate)
@@ -40,7 +43,7 @@ export function NewTransactionModal({
           },
           onCompleted(data) {
             console.log(data)
-            //window.alert('Transaction created o/')
+            setIsOpen(false)
             toast.success('Transaction Created!', {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 5000,
