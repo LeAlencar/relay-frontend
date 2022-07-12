@@ -9,16 +9,22 @@ import { useState } from 'react'
 import { NewTransactionModal } from '../newTransactionModal'
 
 export default function Heading() {
-  const [isNewTransactionModalOpen, setIsNewModalTransactionOpen] =
-    useState(false)
+  const [isModalOpen, setIsOpen] = useState(false)
 
   function handleOpenNewTransactionModal() {
-    setIsNewModalTransactionOpen(true)
+    setIsOpen(true)
   }
 
   function handleCloseNewTransactionModal() {
-    setIsNewModalTransactionOpen(false)
+    setIsOpen(false)
   }
+
+  const handleModal = {
+    isOpen: isModalOpen,
+    setIsOpen: setIsOpen,
+    onRequestClose: handleCloseNewTransactionModal
+  }
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -43,11 +49,7 @@ export default function Heading() {
           </Toolbar>
         </AppBar>
       </Box>
-      <NewTransactionModal
-        isOpen={isNewTransactionModalOpen}
-        setIsOpen={setIsNewModalTransactionOpen}
-        onRequestClose={handleCloseNewTransactionModal}
-      />
+      <NewTransactionModal handleModal={handleModal} />
     </>
   )
 }

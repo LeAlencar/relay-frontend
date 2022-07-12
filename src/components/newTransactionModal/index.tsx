@@ -12,16 +12,14 @@ import { TransactionCreate } from '../../mutations/createMutation'
 import { Dispatch, SetStateAction } from 'react'
 
 interface NewTransactionModalProps {
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
-  onRequestClose: () => void
+  handleModal: {
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+    onRequestClose: () => void
+  }
 }
 
-export function NewTransactionModal({
-  isOpen,
-  setIsOpen,
-  onRequestClose
-}: NewTransactionModalProps) {
+export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
   const [transactionCreate] = useMutation(TransactionCreate)
 
   const formikValue = useFormik({
@@ -43,7 +41,7 @@ export function NewTransactionModal({
           },
           onCompleted(data) {
             console.log(data)
-            setIsOpen(false)
+            handleModal.setIsOpen(false)
             toast.success('Transaction Created!', {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 5000,
@@ -62,15 +60,15 @@ export function NewTransactionModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      isOpen={handleModal.isOpen}
+      onRequestClose={handleModal.onRequestClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
       ariaHideApp={false}
     >
       <button
         type="button"
-        onClick={onRequestClose}
+        onClick={handleModal.onRequestClose}
         className="react-modal-close"
       >
         <CloseIcon />
