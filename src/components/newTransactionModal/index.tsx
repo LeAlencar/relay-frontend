@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { useMutation } from 'react-relay'
+import { ConnectionHandler, useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { TransactionCreate } from '../../mutations/createMutation'
@@ -22,6 +22,11 @@ interface NewTransactionModalProps {
 export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
   const [transactionCreate] = useMutation(TransactionCreate)
 
+  const connectionId = ConnectionHandler.getConnectionID(
+    'transactions',
+    'TransactionList_transactions'
+  )
+
   const formikValue = useFormik({
     initialValues: {
       name: '',
@@ -37,7 +42,8 @@ export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
               name: values.name,
               category: values.category,
               price: String(values.price)
-            }
+            },
+            connections: [connectionId]
           },
           onCompleted(data) {
             console.log(data)

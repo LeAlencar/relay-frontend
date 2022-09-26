@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Suspense } from 'react'
 
@@ -19,7 +20,9 @@ function App() {
   const response = useLazyLoadQuery<AppQuery>(
     graphql`
       query AppQuery {
-        transactions {
+        transactions(first: 10)
+          @connection(key: "TransactionList_transactions") {
+          __id
           edges {
             node {
               ...Transaction_transaction
