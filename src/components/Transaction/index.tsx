@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
@@ -5,21 +6,29 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { UpdateTransactionModal } from '../updateTransaction'
-import { useMutation } from 'react-relay'
+import { useFragment, useMutation } from 'react-relay'
 import { TransactionDelete } from '../../mutations/deleteMutation'
 import { toast } from 'react-toastify'
+import { Transaction_transaction$key } from './__generated__/Transaction_transaction.graphql'
+const graphql = require('babel-plugin-relay/macro')
 
-interface nodeProps {
-  key: string
-  node: {
-    id: string
-    name: string
-    price: string
-    category: string
-  }
+interface TransactionProps {
+  transaction: Transaction_transaction$key
 }
 
-export function Transaction({ node }: nodeProps) {
+export function Transaction(props: TransactionProps) {
+  const transaction = useFragment(
+    graphql`
+      fragment Transaction_transaction on Transaction {
+        id
+        name
+        price
+        category
+      }
+    `,
+    props.transaction
+  )
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
   const [transactionDelete] = useMutation(TransactionDelete)
 
@@ -35,7 +44,7 @@ export function Transaction({ node }: nodeProps) {
     transactionDelete({
       variables: {
         input: {
-          transactionId: node.id
+          transactionId: transaction.id
         }
       },
       onCompleted(data) {
@@ -57,13 +66,13 @@ export function Transaction({ node }: nodeProps) {
     <Card sx={{ minWidth: 175, marginBottom: 5 }}>
       <CardContent>
         <Typography variant="h6" color="text.secondary" gutterBottom>
-          {node.name}
+          {transaction.name}
         </Typography>
         <Typography color="text.secondary" gutterBottom>
-          Price: R$ {node.price}
+          Price: R$ {transaction.price}
         </Typography>
         <Typography color="text.secondary" gutterBottom>
-          Category: {node.category}
+          Category: {transaction.category}
         </Typography>
 
         <Box display="flex" justifyContent="space-between">
@@ -81,7 +90,7 @@ export function Transaction({ node }: nodeProps) {
         <UpdateTransactionModal
           isOpen={isUpdateModalOpen}
           onRequestClose={handleCloseUpdateModal}
-          node={node}
+          node={transaction}
         />
       </CardContent>
     </Card>

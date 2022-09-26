@@ -22,10 +22,7 @@ function App() {
         transactions {
           edges {
             node {
-              id
-              name
-              category
-              price
+              ...Transaction_transaction
             }
           }
         }
@@ -53,7 +50,7 @@ function App() {
       <Heading />
       <Container sx={{ marginTop: 10 }}>
         {transactions.edges.map(({ node }: any) => {
-          return <Transaction key={node.id} node={node} />
+          return <Transaction key={node.id} transaction={node} />
         })}
       </Container>
       <GlobalStyle />

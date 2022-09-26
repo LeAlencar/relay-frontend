@@ -9,16 +9,12 @@ import { useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { updateTransactionMutation } from '../../mutations/updateMutation'
+import { Transaction_transaction$data } from '../Transaction/__generated__/Transaction_transaction.graphql'
 
 interface UpdateTransactionModalProps {
   isOpen: boolean
   onRequestClose: () => void
-  node: {
-    id: string
-    name: string
-    category: string
-    price: string
-  }
+  node: Transaction_transaction$data
 }
 
 export function UpdateTransactionModal({
@@ -27,7 +23,6 @@ export function UpdateTransactionModal({
   node
 }: UpdateTransactionModalProps) {
   const [transactionUpdate] = useMutation(updateTransactionMutation)
-  console.log(node.id)
 
   const formikValue = useFormik({
     initialValues: {
@@ -80,21 +75,21 @@ export function UpdateTransactionModal({
           id="name"
           placeholder="Nome"
           onChange={formikValue.handleChange}
-          value={formikValue.values.name}
+          value={formikValue.values.name as string}
         />
         <input
           id="price"
           type="number"
           placeholder="Valor"
           onChange={formikValue.handleChange}
-          value={formikValue.values.price}
+          value={formikValue.values.price as string}
         />
 
         <input
           id="category"
           placeholder="Categoria"
           onChange={formikValue.handleChange}
-          value={formikValue.values.category}
+          value={formikValue.values.category as string}
         />
         <button type="submit">
           {formikValue.isSubmitting ? (
