@@ -8,11 +8,7 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { NewTransactionModal } from '../newTransactionModal'
 
-interface HeadingProps {
-  conns: string
-}
-
-export default function Heading({ conns }: HeadingProps) {
+export default function Heading() {
   const [isModalOpen, setIsOpen] = useState(false)
 
   function handleOpenNewTransactionModal() {
@@ -53,7 +49,7 @@ export default function Heading({ conns }: HeadingProps) {
           </Toolbar>
         </AppBar>
       </Box>
-      <NewTransactionModal handleModal={handleModal} conns={conns} />
+      <NewTransactionModal handleModal={handleModal} />
     </>
   )
 }

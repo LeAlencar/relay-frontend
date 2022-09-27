@@ -9,7 +9,7 @@ describe('<Heading />', () => {
     const environment = createMockEnvironment()
     render(
       <WithProvider relayEnvironment={environment}>
-        <Heading conns={''} />
+        <Heading />
       </WithProvider>
     )
     expect(screen.getByText('Transactions')).toBeTruthy()
@@ -18,7 +18,7 @@ describe('<Heading />', () => {
     const environment = createMockEnvironment()
     render(
       <WithProvider relayEnvironment={environment}>
-        <Heading conns={''} />
+        <Heading />
       </WithProvider>
     )
     expect(screen.findByDisplayValue('new')).toBeTruthy()

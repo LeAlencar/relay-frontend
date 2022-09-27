@@ -7,12 +7,8 @@ export const TransactionCreate = graphql`
     $connections: [ID!]!
   ) {
     TransactionCreate(input: $input) {
-      transactionEdge {
-        node
-          @prependNode(
-            connections: $connections
-            edgeTypeName: "TransactionEdge"
-          ) {
+      transactionEdge @prependEdge(connections: $connections) {
+        node {
           id
           ...Transaction_transaction
         }
