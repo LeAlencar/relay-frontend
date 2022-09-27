@@ -22,7 +22,7 @@ interface NewTransactionModalProps {
 }
 
 export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
-  const [transactionCreate, isMutationOnFlight] = useMutation(TransactionCreate)
+  const [transactionCreate] = useMutation(TransactionCreate)
 
   const connectionIDs = ConnectionHandler.getConnectionID(
     ROOT_ID,

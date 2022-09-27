@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
@@ -6,10 +7,11 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { UpdateTransactionModal } from '../updateTransaction'
-import { useFragment, useMutation } from 'react-relay'
+import { ConnectionHandler, useFragment, useMutation } from 'react-relay'
 import { TransactionDelete } from '../../mutations/deleteMutation'
 import { toast } from 'react-toastify'
 import { Transaction_transaction$key } from './__generated__/Transaction_transaction.graphql'
+import { RecordProxy, ROOT_ID } from 'relay-runtime'
 const graphql = require('babel-plugin-relay/macro')
 
 interface TransactionProps {
@@ -29,6 +31,11 @@ export function Transaction(props: TransactionProps) {
     props.transaction
   )
 
+  const connectionIDs = ConnectionHandler.getConnectionID(
+    ROOT_ID,
+    'TransactionList_transactions'
+  )
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
   const [transactionDelete] = useMutation(TransactionDelete)
 
@@ -45,7 +52,8 @@ export function Transaction(props: TransactionProps) {
       variables: {
         input: {
           transactionId: transaction.id
-        }
+        },
+        connections: [connectionIDs]
       },
       onCompleted(data) {
         console.log(data)

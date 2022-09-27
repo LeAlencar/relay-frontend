@@ -1,97 +1,93 @@
-# The root of all... queries
-type Query {
-  # Fetches an object given its ID
-  node(
-    # The ID of an object
-    id: ID!
-  ): Node
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
 
-  # Fetches objects given their IDs
-  nodes(
-    # The IDs of objects
-    ids: [ID!]!
-  ): [Node]!
-  transactions(
-    after: String
-    first: Int
-    before: String
-    last: Int
-  ): TransactionConnection!
+"""Root of ... mutations"""
+type Mutation {
+  """Create a new Transaction"""
+  TransactionCreate(input: TransactionCreateInput!): TransactionCreatePayload
+
+  """Delete a Transaction"""
+  TransactionDelete(input: TransactionDeleteInput!): TransactionDeletePayload
+
+  """Update a Transaction"""
+  TransactionUpdate(input: TransactionUpdateInput!): TransactionUpdatePayload
+  userCreate(input: UserRegisterInput!): UserRegisterPayload
+  userLogin(input: UserLoginInput!): UserLoginPayload
 }
 
-# An object with an ID
+"""An object with an ID"""
 interface Node {
-  # The id of the object.
+  """The id of the object."""
   id: ID!
 }
 
-# A connection to a list of items.
-type TransactionConnection {
-  # Number of items in this connection
-  count: Int
-
-  # A count of the total number of objects in this connection, ignoring pagination.
-  #   This allows a client to fetch the first five objects by passing "5" as the
-  #   argument to "first", then fetch the total count so it could display "5 of 83",
-  #   for example.
-  totalCount: Int
-
-  # Offset from start
-  startCursorOffset: Int!
-
-  # Offset till end
-  endCursorOffset: Int!
-
-  # Information to aid in pagination.
-  pageInfo: PageInfoExtended!
-
-  # A list of edges.
-  edges: [TransactionEdge]!
-}
-
-# Information about pagination in a connection.
-type PageInfoExtended {
-  # When paginating forwards, are there more items?
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
 
-  # When paginating backwards, are there more items?
+  """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
-  # When paginating backwards, the cursor to continue.
+  """When paginating backwards, the cursor to continue."""
   startCursor: String
 
-  # When paginating forwards, the cursor to continue.
+  """When paginating forwards, the cursor to continue."""
   endCursor: String
 }
 
-# An edge in a connection.
-type TransactionEdge {
-  # The item at the end of the edge
-  node: Transaction
+"""The root of all queries"""
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 
-  # A cursor for use in pagination
-  cursor: String!
+  """Fetches objects given their IDs"""
+  nodes(
+    """The IDs of objects"""
+    ids: [ID!]!
+  ): [Node]!
+  transactions(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TransactionConnection!
+  user(id: ID!): User
 }
 
-# transaction data
+type Subscription {
+  TransactionNew(input: TransactionNewInput!): TransactionNewPayload
+}
+
+"""Transaction"""
 type Transaction implements Node {
-  # The ID of an object
+  """The ID of an object"""
   id: ID!
-  name: String
-  category: String
-  price: String
+  name: String!
+  category: String!
+  price: String!
 }
 
-# Root of ... mutations
-type Mutation {
-  # Create a new Transaction
-  TransactionCreate(input: TransactionCreateInput!): TransactionCreatePayload
+"""A connection to a list of items."""
+type TransactionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
 
-  # Delete a Transaction
-  TransactionDelete(input: TransactionDeleteInput!): TransactionDeletePayload
-
-  # Update a Transaction
-  TransactionUpdate(input: TransactionUpdateInput!): TransactionUpdatePayload
+  """A list of edges."""
+  edges: [TransactionEdge]!
 }
 
 input TransactionCreateInput {
@@ -103,12 +99,8 @@ input TransactionCreateInput {
 }
 
 type TransactionCreatePayload {
-  transactionEdge: TransactionEdge!
-  # Default error field resolver.
+  transactionEdge: TransactionEdge
   error: String
-
-  # Default success field resolver.
-  success: String
   clientMutationId: String
 }
 
@@ -119,31 +111,76 @@ input TransactionDeleteInput {
 
 type TransactionDeletePayload {
   transactionId: ID
-
-  # Default error field resolver.
   error: String
-
-  # Default success field resolver.
-  success: String
   clientMutationId: String
+}
+
+"""An edge in a connection."""
+type TransactionEdge {
+  """The item at the end of the edge"""
+  node: Transaction
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input TransactionNewInput {
+  clientSubscriptionId: String
+}
+
+type TransactionNewPayload {
+  transaction: Transaction
+  clientSubscriptionId: String
 }
 
 input TransactionUpdateInput {
   transactionId: ID!
   name: String!
-  start: String!
-  end: String!
-  allDay: Boolean!
+  category: String!
+  price: String!
   clientMutationId: String
 }
 
 type TransactionUpdatePayload {
   transaction: Transaction
-
-  # Default error field resolver.
   error: String
-
-  # Default success field resolver.
-  success: String
   clientMutationId: String
 }
+
+"""User type"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """User's username"""
+  username: String!
+
+  """User's email"""
+  email: String!
+}
+
+input UserLoginInput {
+  username: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserLoginPayload {
+  token: String
+  me: User
+  clientMutationId: String
+}
+
+input UserRegisterInput {
+  username: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserRegisterPayload {
+  token: String
+  error: String
+  clientMutationId: String
+}
+
