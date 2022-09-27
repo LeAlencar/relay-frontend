@@ -103,8 +103,7 @@ input TransactionCreateInput {
 }
 
 type TransactionCreatePayload {
-  transaction: Transaction
-
+  transactionEdge: TransactionEdge!
   # Default error field resolver.
   error: String
 

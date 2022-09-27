@@ -36,6 +36,8 @@ function App() {
   )
 
   const { transactions } = response
+  const connections = response.transactions.__id
+  console.log(connections)
 
   return (
     <div className="App">
@@ -50,10 +52,10 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Heading />
+      <Heading conns={connections} />
       <Container sx={{ marginTop: 10 }}>
         {transactions.edges.map(({ node }: any) => {
-          return <Transaction key={node.id} transaction={node} />
+          return <Transaction key={node._id} transaction={node} />
         })}
       </Container>
       <GlobalStyle />

@@ -7,17 +7,15 @@ export const TransactionCreate = graphql`
     $connections: [ID!]!
   ) {
     TransactionCreate(input: $input) {
-      success
-      error
-      transaction
-        @prependNode(
-          connections: $connections
-          edgeTypeName: "TransactionEdge"
-        ) {
-        id
-        name
-        category
-        price
+      transactionEdge {
+        node
+          @prependNode(
+            connections: $connections
+            edgeTypeName: "TransactionEdge"
+          ) {
+          id
+          ...Transaction_transaction
+        }
       }
     }
   }

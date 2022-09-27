@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import Modal from 'react-modal'
 import { Container } from './styles'
@@ -5,7 +6,7 @@ import { toast } from 'react-toastify'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { ConnectionHandler, useMutation } from 'react-relay'
+import { useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { TransactionCreate } from '../../mutations/createMutation'
@@ -17,15 +18,14 @@ interface NewTransactionModalProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>
     onRequestClose: () => void
   }
+  conns: string
 }
 
-export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
+export function NewTransactionModal({
+  handleModal,
+  conns
+}: NewTransactionModalProps) {
   const [transactionCreate] = useMutation(TransactionCreate)
-
-  const connectionId = ConnectionHandler.getConnectionID(
-    'transactions',
-    'TransactionList_transactions'
-  )
 
   const formikValue = useFormik({
     initialValues: {
@@ -43,7 +43,7 @@ export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
               category: values.category,
               price: String(values.price)
             },
-            connections: [connectionId]
+            connections: [conns]
           },
           onCompleted(data) {
             console.log(data)
