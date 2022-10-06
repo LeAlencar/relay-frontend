@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import Modal from 'react-modal'
 import { Container } from './styles'
@@ -5,11 +6,12 @@ import { toast } from 'react-toastify'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { useMutation } from 'react-relay'
+import { ConnectionHandler, useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { TransactionCreate } from '../../mutations/createMutation'
 import { Dispatch, SetStateAction } from 'react'
+import { ROOT_ID } from 'relay-runtime'
 
 interface NewTransactionModalProps {
   handleModal: {
@@ -22,6 +24,11 @@ interface NewTransactionModalProps {
 export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
   const [transactionCreate] = useMutation(TransactionCreate)
 
+  const connectionIDs = ConnectionHandler.getConnectionID(
+    ROOT_ID,
+    'TransactionList_transactions'
+  )
+
   const formikValue = useFormik({
     initialValues: {
       name: '',
@@ -29,32 +36,31 @@ export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
       price: ''
     },
     onSubmit: (values, actions) => {
-      setTimeout(() => {
-        transactionCreate({
-          variables: {
-            input: {
-              transactionId: Date.now(),
-              name: values.name,
-              category: values.category,
-              price: String(values.price)
-            }
+      transactionCreate({
+        variables: {
+          input: {
+            transactionId: Date.now(),
+            name: values.name,
+            category: values.category,
+            price: String(values.price)
           },
-          onCompleted(data) {
-            console.log(data)
-            handleModal.setIsOpen(false)
-            toast.success('Transaction Created!', {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined
-            })
-          }
-        })
-        actions.setSubmitting(false)
-      }, 2000)
+          connections: [connectionIDs]
+        },
+        onCompleted(data) {
+          console.log(data)
+          handleModal.setIsOpen(false)
+          toast.success('Transaction Created!', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          })
+        }
+      })
+      actions.setSubmitting(false)
     }
   })
 

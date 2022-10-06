@@ -2,15 +2,16 @@
 const graphql = require('babel-plugin-relay/macro')
 
 export const TransactionCreate = graphql`
-  mutation createMutation($input: TransactionCreateInput!) {
+  mutation createMutation(
+    $input: TransactionCreateInput!
+    $connections: [ID!]!
+  ) {
     TransactionCreate(input: $input) {
-      success
-      error
-      transaction {
-        id
-        name
-        category
-        price
+      transactionEdge @prependEdge(connections: $connections) {
+        node {
+          id
+          ...Transaction_transaction
+        }
       }
     }
   }

@@ -2,11 +2,12 @@
 const graphql = require('babel-plugin-relay/macro')
 
 export const TransactionDelete = graphql`
-  mutation deleteMutation($input: TransactionDeleteInput!) {
+  mutation deleteMutation(
+    $input: TransactionDeleteInput!
+    $connections: [ID!]!
+  ) {
     TransactionDelete(input: $input) {
-      transactionId
-      success
-      error
+      transactionId @deleteEdge(connections: $connections)
     }
   }
 `
