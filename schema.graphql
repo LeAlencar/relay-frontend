@@ -52,7 +52,7 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  transactions(after: String, first: Int, before: String, last: Int): TransactionConnection
+  transactions(after: String, first: Int, before: String, last: Int): TransactionConnection!
   user: User
 }
 
@@ -76,7 +76,7 @@ type TransactionConnection {
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [TransactionEdge]
+  edges: [TransactionEdge]!
 }
 
 input TransactionCreateInput {
@@ -108,7 +108,7 @@ type TransactionDeletePayload {
 """An edge in a connection."""
 type TransactionEdge {
   """The item at the end of the edge"""
-  node: Transaction
+  node: Transaction!
 
   """A cursor for use in pagination"""
   cursor: String!
