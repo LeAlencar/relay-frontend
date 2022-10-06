@@ -10,6 +10,7 @@ import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { updateTransactionMutation } from '../../mutations/updateMutation'
 import { Transaction_transaction$data } from '../Transaction/__generated__/Transaction_transaction.graphql'
+import { toast } from 'react-toastify'
 
 interface UpdateTransactionModalProps {
   isOpen: boolean
@@ -33,23 +34,29 @@ export function UpdateTransactionModal({
     },
     enableReinitialize: true,
     onSubmit: (values, actions) => {
-      setTimeout(() => {
-        transactionUpdate({
-          variables: {
-            input: {
-              transactionId: node.id,
-              name: values.name,
-              category: values.category,
-              price: String(values.price)
-            }
-          },
-          onCompleted(data) {
-            console.log(data)
-            window.alert('Transaction updated o/')
+      transactionUpdate({
+        variables: {
+          input: {
+            transactionId: values.id,
+            name: values.name,
+            category: values.category,
+            price: String(values.price)
           }
-        })
-        actions.setSubmitting(false)
-      }, 2000)
+        },
+        onCompleted(data) {
+          console.log(data)
+          toast.success('Transaction Updated!', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          })
+        }
+      })
+      actions.setSubmitting(false)
     }
   })
 

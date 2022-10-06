@@ -39,7 +39,6 @@ export function NewTransactionModal({ handleModal }: NewTransactionModalProps) {
       transactionCreate({
         variables: {
           input: {
-            transactionId: Date.now(),
             name: values.name,
             category: values.category,
             price: String(values.price)

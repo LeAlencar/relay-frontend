@@ -52,20 +52,8 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  transactions(
-    """Returns the items in the list that come after the specified cursor."""
-    after: String
-
-    """Returns the first n items from the list."""
-    first: Int
-
-    """Returns the items in the list that come before the specified cursor."""
-    before: String
-
-    """Returns the last n items from the list."""
-    last: Int
-  ): TransactionConnection!
-  user(id: ID!): User
+  transactions(after: String, first: Int, before: String, last: Int): TransactionConnection
+  user: User
 }
 
 type Subscription {
@@ -77,6 +65,7 @@ type Transaction implements Node {
   """The ID of an object"""
   id: ID!
   name: String!
+  owner: User
   category: String!
   price: String!
 }
@@ -87,11 +76,10 @@ type TransactionConnection {
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [TransactionEdge]!
+  edges: [TransactionEdge]
 }
 
 input TransactionCreateInput {
-  transactionId: ID!
   name: String!
   category: String!
   price: String!
@@ -101,6 +89,7 @@ input TransactionCreateInput {
 type TransactionCreatePayload {
   transactionEdge: TransactionEdge
   error: String
+  success: String
   clientMutationId: String
 }
 
@@ -112,6 +101,7 @@ input TransactionDeleteInput {
 type TransactionDeletePayload {
   transactionId: ID
   error: String
+  success: String
   clientMutationId: String
 }
 
@@ -157,10 +147,23 @@ type User implements Node {
 
   """User's email"""
   email: String!
+  transactions(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): TransactionConnection
 }
 
 input UserLoginInput {
-  username: String!
+  email: String!
   password: String!
   clientMutationId: String
 }

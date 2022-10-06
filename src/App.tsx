@@ -10,10 +10,9 @@ import Heading from './components/Heading'
 import Container from '@mui/material/Container'
 import { GlobalStyle } from './styles/global'
 import { Transaction } from './components/Transaction'
-import { AppQuery } from './__generated__/AppQuery.graphql'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { AppQuery } from './__generated__/AppQuery.graphql'
 const graphql = require('babel-plugin-relay/macro')
 
 function App() {
