@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FormLogin } from '../components/LoginForm'
+import { FormRegister } from '../components/RegisterForm'
 import { AuthContext } from '../context/AuthContext'
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const { isAuth } = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -13,7 +13,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <FormLogin />
+      <FormRegister />
     </>
   )
 }

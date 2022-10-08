@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useEffect, useState } from 'react'
-import { useCookies } from 'react-cookie'
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { GetToken } from '../components/auth/security'
 
 interface IAuthContext {
   isAuth: boolean
@@ -10,25 +9,22 @@ interface IAuthContext {
 
 export const AuthContext = createContext({} as IAuthContext)
 
-export const AuthProvider = ({ children }: any) => {
-  const [isAuth, setIsAuth] = useState(false)
-  const [cookies, setCookie, removeCookie] = useCookies(['login'])
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const token = GetToken()
+
+  const [isAuth, setIsAuth] = useState(token ? true : false)
 
   useEffect(() => {
-    const token = cookies.login
-
-    token ? setIsAuth(true) : removeCookie('login')
-  }, [cookies.login, removeCookie])
+    token ? setIsAuth(true) : localStorage.removeItem('login')
+  }, [token])
 
   const login = (token: string) => {
-    setCookie('login', token, {
-      maxAge: 60 * 60 * 24 //24 hours
-    })
+    localStorage.setItem('login', token)
     setIsAuth(true)
   }
 
   const logout = () => {
-    removeCookie('login')
+    localStorage.removeItem('login')
     setIsAuth(false)
   }
 
