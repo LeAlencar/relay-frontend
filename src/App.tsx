@@ -1,41 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { Suspense } from 'react'
-
-import { RelayEnvironmentProvider, useLazyLoadQuery } from 'react-relay/hooks'
-
+import { RelayEnvironmentProvider } from 'react-relay/hooks'
 import Environment from './relay/Environment'
-
-import Heading from './components/Heading'
-import Container from '@mui/material/Container'
 import { GlobalStyle } from './styles/global'
-import { Transaction } from './components/Transaction'
-import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from './context/AuthContext'
 import 'react-toastify/dist/ReactToastify.css'
-import { AppQuery } from './__generated__/AppQuery.graphql'
-const graphql = require('babel-plugin-relay/macro')
+import { ToastContainer } from 'react-toastify'
+import { Routes } from './Routes'
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
-  const response = useLazyLoadQuery<AppQuery>(
-    graphql`
-      query AppQuery {
-        transactions(first: 10)
-          @connection(key: "TransactionList_transactions") {
-          __id
-          edges {
-            node {
-              ...Transaction_transaction
-            }
-          }
-        }
-      }
-    `,
-    {},
-    { fetchPolicy: 'network-only' }
-  )
-
-  const { transactions } = response
-
   return (
     <div className="App">
       <ToastContainer
@@ -49,12 +22,7 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Heading />
-      <Container sx={{ marginTop: 10 }}>
-        {transactions.edges.map(({ node }: any) => {
-          return <Transaction key={node._id} transaction={node} />
-        })}
-      </Container>
+      <Routes />
       <GlobalStyle />
     </div>
   )
@@ -62,11 +30,15 @@ function App() {
 
 function AppRoot() {
   return (
-    <RelayEnvironmentProvider environment={Environment}>
-      <Suspense fallback={'Loading...'}>
-        <App />
-      </Suspense>
-    </RelayEnvironmentProvider>
+    <AuthProvider>
+      <RelayEnvironmentProvider environment={Environment}>
+        <Suspense fallback={'Loading...'}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
+      </RelayEnvironmentProvider>
+    </AuthProvider>
   )
 }
 

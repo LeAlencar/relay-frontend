@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -7,8 +7,10 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { NewTransactionModal } from '../newTransactionModal'
+import { AuthContext } from '../../context/AuthContext'
 
 export default function Heading() {
+  const { isAuth } = useContext(AuthContext)
   const [isModalOpen, setIsOpen] = useState(false)
 
   function handleOpenNewTransactionModal() {
@@ -39,17 +41,19 @@ export default function Heading() {
             >
               Transactions
             </Typography>
-            <Button
-              color="success"
-              variant="contained"
-              onClick={handleOpenNewTransactionModal}
-            >
-              New
-            </Button>
+            {isAuth && (
+              <Button
+                color="success"
+                variant="contained"
+                onClick={handleOpenNewTransactionModal}
+              >
+                New
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>
-      <NewTransactionModal handleModal={handleModal} />
+      {isAuth && <NewTransactionModal handleModal={handleModal} />}
     </>
   )
 }

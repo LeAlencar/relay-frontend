@@ -11,7 +11,7 @@ import { ConnectionHandler, useFragment, useMutation } from 'react-relay'
 import { TransactionDelete } from '../../mutations/deleteMutation'
 import { toast } from 'react-toastify'
 import { Transaction_transaction$key } from './__generated__/Transaction_transaction.graphql'
-import { RecordProxy, ROOT_ID } from 'relay-runtime'
+import { ROOT_ID } from 'relay-runtime'
 const graphql = require('babel-plugin-relay/macro')
 
 interface TransactionProps {
