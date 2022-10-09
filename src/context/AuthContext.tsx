@@ -11,11 +11,10 @@ export const AuthContext = createContext({} as IAuthContext)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const token = GetToken()
-
   const [isAuth, setIsAuth] = useState(token ? true : false)
 
   useEffect(() => {
-    token ? setIsAuth(true) : localStorage.removeItem('login')
+    token ? setIsAuth(true) : setIsAuth(false)
   }, [token])
 
   const login = (token: string) => {

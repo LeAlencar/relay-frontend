@@ -8,7 +8,7 @@ export const LoginPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    isAuth ? navigate('/') : ''
+    if (isAuth) navigate('/')
   }, [isAuth, navigate])
 
   return (
