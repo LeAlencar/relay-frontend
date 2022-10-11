@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://lealencar.github.io/relay-frontend",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
