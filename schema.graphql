@@ -65,7 +65,7 @@ type Transaction implements Node {
   """The ID of an object"""
   id: ID!
   name: String!
-  owner: User!
+  owner: User
   category: String!
   price: String!
 }
@@ -132,7 +132,8 @@ input TransactionUpdateInput {
 }
 
 type TransactionUpdatePayload {
-  transaction: Transaction
+  transactionEdge: TransactionEdge
+  success: String
   error: String
   clientMutationId: String
 }
@@ -159,7 +160,7 @@ type User implements Node {
 
     """Returns the last n items from the list."""
     last: Int
-  ): TransactionConnection
+  ): TransactionConnection!
 }
 
 input UserLoginInput {

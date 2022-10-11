@@ -11,26 +11,25 @@ import { useFormik } from 'formik'
 import { updateTransactionMutation } from '../../mutations/updateMutation'
 import { Transaction_transaction$data } from '../Transaction/__generated__/Transaction_transaction.graphql'
 import { toast } from 'react-toastify'
-
-interface UpdateTransactionModalProps {
-  isOpen: boolean
-  onRequestClose: () => void
-  node: Transaction_transaction$data
+import { Dispatch, SetStateAction } from 'react'
+interface TransactionModalProps {
+  handleModal: {
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+    onRequestClose: () => void
+  }
+  node?: Transaction_transaction$data
 }
 
-export function UpdateTransactionModal({
-  isOpen,
-  onRequestClose,
-  node
-}: UpdateTransactionModalProps) {
+export function TransactionModal({ handleModal, node }: TransactionModalProps) {
   const [transactionUpdate] = useMutation(updateTransactionMutation)
 
   const formikValue = useFormik({
     initialValues: {
-      id: node.id,
-      name: node.name,
-      category: node.category,
-      price: node.price
+      id: node ? node.id : '',
+      name: node ? node.name : '',
+      category: node ? node.category : '',
+      price: node ? node.price : ''
     },
     enableReinitialize: true,
     onSubmit: (values, actions) => {
@@ -62,22 +61,25 @@ export function UpdateTransactionModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      isOpen={handleModal.isOpen}
+      onRequestClose={handleModal.onRequestClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
       ariaHideApp={false}
     >
       <button
         type="button"
-        onClick={onRequestClose}
+        onClick={handleModal.onRequestClose}
         className="react-modal-close"
       >
         <CloseIcon />
       </button>
       <Container onSubmit={formikValue.handleSubmit}>
-        <Typography variant="h2">Atualizar Transação</Typography>
-        <input name="id" type="hidden" value={node.id} />
+        <Typography variant="h2">
+          {node ? 'Atualizar Transação' : 'Cadastrar Transação'}
+        </Typography>
+        {node && <input name="id" type="hidden" value={node.id} />}
+
         <input
           id="name"
           placeholder="Nome"
@@ -101,8 +103,10 @@ export function UpdateTransactionModal({
         <button type="submit">
           {formikValue.isSubmitting ? (
             <CircularProgress color="inherit" />
-          ) : (
+          ) : node ? (
             'Atualizar'
+          ) : (
+            'Criar'
           )}
         </button>
       </Container>
