@@ -160,7 +160,7 @@ type User implements Node {
 
     """Returns the last n items from the list."""
     last: Int
-  ): TransactionConnection!
+  ): TransactionConnection
 }
 
 input UserLoginInput {

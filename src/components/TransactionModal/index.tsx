@@ -36,7 +36,7 @@ export function TransactionModal({
     ROOT_ID,
     'TransactionList_transactions'
   )
-
+  console.log(node)
   const formikValue = useFormik({
     initialValues: {
       id: node ? node.id : '',
@@ -81,6 +81,7 @@ export function TransactionModal({
             connections: [connectionIDs]
           },
           onCompleted() {
+            handleModal.setIsOpen(false)
             toast.success('Transaction Updated!', {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 5000,
