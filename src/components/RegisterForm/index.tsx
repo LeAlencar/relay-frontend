@@ -30,20 +30,7 @@ export const FormRegister = () => {
           }
         },
         onCompleted({ userCreate }: any) {
-          if (!userCreate.error) {
-            const token = userCreate.token
-            login(token)
-            navigate('/')
-            toast.success('Logged in!', {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined
-            })
-          } else {
+          if (userCreate.error) {
             toast.error('This user already exists!', {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 2000,
@@ -53,7 +40,23 @@ export const FormRegister = () => {
               draggable: true,
               progress: undefined
             })
+
+            return
           }
+
+          const token = userCreate.token
+          login(token)
+          navigate('/')
+
+          toast.success('Logged in!', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          })
         }
       })
       actions.setSubmitting(false)
