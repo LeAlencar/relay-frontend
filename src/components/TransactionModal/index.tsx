@@ -5,13 +5,15 @@ import { Container } from './styles'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import { useMutation } from 'react-relay'
+import { ConnectionHandler, useMutation } from 'react-relay'
 import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { updateTransactionMutation } from '../../mutations/updateMutation'
 import { Transaction_transaction$data } from '../Transaction/__generated__/Transaction_transaction.graphql'
 import { toast } from 'react-toastify'
 import { Dispatch, SetStateAction } from 'react'
+import { ROOT_ID } from 'relay-runtime'
+import { TransactionCreate } from '../../mutations/createMutation'
 interface TransactionModalProps {
   handleModal: {
     isOpen: boolean
@@ -19,10 +21,21 @@ interface TransactionModalProps {
     onRequestClose: () => void
   }
   node?: Transaction_transaction$data
+  creationModal?: boolean
 }
 
-export function TransactionModal({ handleModal, node }: TransactionModalProps) {
+export function TransactionModal({
+  handleModal,
+  node,
+  creationModal
+}: TransactionModalProps) {
   const [transactionUpdate] = useMutation(updateTransactionMutation)
+  const [transactionCreate] = useMutation(TransactionCreate)
+
+  const connectionIDs = ConnectionHandler.getConnectionID(
+    ROOT_ID,
+    'TransactionList_transactions'
+  )
 
   const formikValue = useFormik({
     initialValues: {
@@ -33,28 +46,53 @@ export function TransactionModal({ handleModal, node }: TransactionModalProps) {
     },
     enableReinitialize: true,
     onSubmit: (values, actions) => {
-      transactionUpdate({
-        variables: {
-          input: {
-            transactionId: values.id,
-            name: values.name,
-            category: values.category,
-            price: String(values.price)
+      if (creationModal) {
+        transactionCreate({
+          variables: {
+            input: {
+              name: values.name,
+              category: values.category,
+              price: String(values.price)
+            },
+            connections: [connectionIDs]
+          },
+          onCompleted() {
+            handleModal.setIsOpen(false)
+            toast.success('Transaction Created!', {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined
+            })
           }
-        },
-        onCompleted(data) {
-          console.log(data)
-          toast.success('Transaction Updated!', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined
-          })
-        }
-      })
+        })
+      } else {
+        transactionUpdate({
+          variables: {
+            input: {
+              transactionId: values.id,
+              name: values.name,
+              category: values.category,
+              price: String(values.price)
+            },
+            connections: [connectionIDs]
+          },
+          onCompleted() {
+            toast.success('Transaction Updated!', {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined
+            })
+          }
+        })
+      }
       actions.setSubmitting(false)
     }
   })

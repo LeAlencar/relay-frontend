@@ -53,7 +53,9 @@ export default function Heading() {
           </Toolbar>
         </AppBar>
       </Box>
-      {isAuth && <TransactionModal handleModal={handleModal} />}
+      {isAuth && (
+        <TransactionModal handleModal={handleModal} creationModal={true} />
+      )}
     </>
   )
 }
