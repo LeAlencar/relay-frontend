@@ -6,8 +6,8 @@ import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
-import { NewTransactionModal } from '../newTransactionModal'
 import { AuthContext } from '../../context/AuthContext'
+import { TransactionModal } from '../TransactionModal'
 
 export default function Heading() {
   const { isAuth } = useContext(AuthContext)
@@ -53,7 +53,7 @@ export default function Heading() {
           </Toolbar>
         </AppBar>
       </Box>
-      {isAuth && <NewTransactionModal handleModal={handleModal} />}
+      {isAuth && <TransactionModal handleModal={handleModal} />}
     </>
   )
 }

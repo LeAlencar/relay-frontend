@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { useState } from 'react'
-import { UpdateTransactionModal } from '../updateTransaction'
+import { TransactionModal } from '../TransactionModal'
 import { ConnectionHandler, useFragment, useMutation } from 'react-relay'
 import { TransactionDelete } from '../../mutations/deleteMutation'
 import { toast } from 'react-toastify'
@@ -45,6 +45,12 @@ export function Transaction(props: TransactionProps) {
 
   function handleCloseUpdateModal() {
     setIsUpdateModalOpen(false)
+  }
+
+  const handleModal = {
+    isOpen: isUpdateModalOpen,
+    setIsOpen: setIsUpdateModalOpen,
+    onRequestClose: handleCloseUpdateModal
   }
 
   function handleDelete() {
@@ -95,11 +101,7 @@ export function Transaction(props: TransactionProps) {
             Delete
           </Button>
         </Box>
-        <UpdateTransactionModal
-          isOpen={isUpdateModalOpen}
-          onRequestClose={handleCloseUpdateModal}
-          node={transaction}
-        />
+        <TransactionModal handleModal={handleModal} node={transaction} />
       </CardContent>
     </Card>
   )
