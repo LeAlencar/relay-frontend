@@ -36,7 +36,7 @@
     "start": "yarn run relay && react-scripts start",
     "test": "jest --maxWorkers=50%",
     "test:watch": "jest --watch --maxWorkers=25%",
-    "build": "react-scripts build && yarn run relay",
+    "build": "yarn run relay && react-scripts build",
     "eject": "react-scripts eject",
     "relay": "relay-compiler",
     "postinstall": "husky install",
