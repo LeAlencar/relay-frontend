@@ -59,6 +59,7 @@ export const FormLogin = () => {
             id="email"
             name="email"
             label="email"
+            placeholder="email"
             value={formikValue.values.email}
             onChange={formikValue.handleChange}
           />
@@ -67,6 +68,7 @@ export const FormLogin = () => {
             name="password"
             label="password"
             type="password"
+            placeholder="password"
             value={formikValue.values.password}
             onChange={formikValue.handleChange}
           />

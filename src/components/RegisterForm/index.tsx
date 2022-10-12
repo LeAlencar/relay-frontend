@@ -76,6 +76,7 @@ export const FormRegister = () => {
             id="username"
             name="username"
             label="username"
+            placeholder="username"
             value={formikValue.values.username}
             onChange={formikValue.handleChange}
           />
@@ -83,6 +84,7 @@ export const FormRegister = () => {
             id="email"
             name="email"
             label="email"
+            placeholder="email"
             value={formikValue.values.email}
             onChange={formikValue.handleChange}
           />
@@ -91,6 +93,7 @@ export const FormRegister = () => {
             name="password"
             label="password"
             type="password"
+            placeholder="password"
             value={formikValue.values.password}
             onChange={formikValue.handleChange}
           />
