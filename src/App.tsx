@@ -6,7 +6,7 @@ import { AuthProvider } from './context/AuthContext'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { Routes } from './Routes'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 
 function App() {
   return (
@@ -33,9 +33,9 @@ function AppRoot() {
     <AuthProvider>
       <RelayEnvironmentProvider environment={Environment}>
         <Suspense fallback={'Loading...'}>
-          <BrowserRouter>
+          <HashRouter>
             <App />
-          </BrowserRouter>
+          </HashRouter>
         </Suspense>
       </RelayEnvironmentProvider>
     </AuthProvider>
