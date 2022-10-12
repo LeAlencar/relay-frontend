@@ -3,7 +3,7 @@ import { GetToken } from '../components/auth/security'
 
 export const fetchGraphQL = async (query: string, variables: Variables) => {
   const auth = GetToken()
-  const response = await fetch('http://localhost:9000/graphql', {
+  const response = await fetch(`${process.env.REACT_APP_HOST}`, {
     method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': '*',
