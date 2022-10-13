@@ -11,9 +11,8 @@ export const FormContainer = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-
-  width: 50rem;
-
+  max-width: 50rem;
+  width: 90%;
   input {
     width: 100%;
     padding: 0 1.4rem;

@@ -6,16 +6,17 @@ export const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 10ex;
+  margin-top: 10em;
 `
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-
-  width: 50rem;
-
+  max-width: 50rem;
+  width: 90%;
+  gap: 20px;
   input {
     width: 100%;
+
     padding: 0 1.4rem;
     height: 4rem;
     border-radius: 0.25rem;
