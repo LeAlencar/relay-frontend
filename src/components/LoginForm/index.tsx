@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, TextField } from '@mui/material'
+import { Button, CircularProgress, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import { useContext } from 'react'
 import { useMutation } from 'react-relay'
@@ -12,7 +12,7 @@ import { Form, FormContainer } from './style'
 
 export const FormLogin = () => {
   const { login } = useContext(AuthContext)
-  const [loginUser] = useMutation(UserLogin)
+  const [loginUser, isInFlight] = useMutation(UserLogin)
   const navigate = useNavigate()
   const formikValue = useFormik({
     initialValues: {
@@ -73,7 +73,7 @@ export const FormLogin = () => {
             onChange={formikValue.handleChange}
           />
           <Button color="primary" variant="contained" type="submit">
-            Login
+            {isInFlight ? <CircularProgress /> : 'Login'}
           </Button>
         </Form>
         <Button
