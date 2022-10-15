@@ -13,6 +13,7 @@ export const Form = styled.form`
   flex-direction: column;
   max-width: 50rem;
   width: 90%;
+  gap: 20px;
   input {
     width: 100%;
     padding: 0 1.4rem;
