@@ -35,6 +35,7 @@ const subscribe = (
 }
 
 const fetchRelay: FetchFunction = async (params, variables) => {
+  // eslint-disable-next-line no-console
   console.log(`fetching query ${params.name} with ${JSON.stringify(variables)}`)
   return fetchGraphQL(params.text as string, variables)
 }
