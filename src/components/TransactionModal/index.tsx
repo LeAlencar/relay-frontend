@@ -29,13 +29,16 @@ export function TransactionModal({
   node,
   creationModal
 }: TransactionModalProps) {
-  const [transactionUpdate] = useMutation(updateTransactionMutation)
-  const [transactionCreate] = useMutation(TransactionCreate)
+  const [transactionUpdate, updateFlight] = useMutation(
+    updateTransactionMutation
+  )
 
+  const [transactionCreate, createFlight] = useMutation(TransactionCreate)
   const connectionIDs = ConnectionHandler.getConnectionID(
     ROOT_ID,
     'TransactionList_transactions'
   )
+
   const formikValue = useFormik({
     initialValues: {
       id: node ? node.id : '',
@@ -97,6 +100,16 @@ export function TransactionModal({
     }
   })
 
+  const renderSubmitContent = () => {
+    if (formikValue.isSubmitting || updateFlight || createFlight) {
+      return <CircularProgress color="inherit" />
+    }
+
+    if (node) return 'Atualizar'
+
+    return 'Criar'
+  }
+
   return (
     <Modal
       isOpen={handleModal.isOpen}
@@ -138,15 +151,7 @@ export function TransactionModal({
           onChange={formikValue.handleChange}
           value={formikValue.values.category as string}
         />
-        <button type="submit">
-          {formikValue.isSubmitting ? (
-            <CircularProgress color="inherit" />
-          ) : node ? (
-            'Atualizar'
-          ) : (
-            'Criar'
-          )}
-        </button>
+        <button type="submit">{renderSubmitContent()}</button>
       </Container>
     </Modal>
   )
