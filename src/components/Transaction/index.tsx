@@ -61,8 +61,7 @@ export function Transaction(props: TransactionProps) {
         },
         connections: [connectionIDs]
       },
-      onCompleted(data) {
-        console.log(data)
+      onCompleted() {
         toast.success('Transaction Deleted!', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 5000,
