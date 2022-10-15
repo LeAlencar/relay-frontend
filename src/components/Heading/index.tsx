@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { TransactionModal } from '../TransactionModal'
+import { AvatarModal } from '../Avatar'
 
 export default function Heading() {
   const { isAuth } = useContext(AuthContext)
@@ -42,13 +43,16 @@ export default function Heading() {
               Transactions
             </Typography>
             {isAuth && (
-              <Button
-                color="success"
-                variant="contained"
-                onClick={handleOpenNewTransactionModal}
-              >
-                New
-              </Button>
+              <>
+                <Button
+                  color="success"
+                  variant="contained"
+                  onClick={handleOpenNewTransactionModal}
+                >
+                  New
+                </Button>
+                <AvatarModal />
+              </>
             )}
           </Toolbar>
         </AppBar>
