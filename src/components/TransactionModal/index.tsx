@@ -36,7 +36,6 @@ export function TransactionModal({
     ROOT_ID,
     'TransactionList_transactions'
   )
-  console.log(node)
   const formikValue = useFormik({
     initialValues: {
       id: node ? node.id : '',
